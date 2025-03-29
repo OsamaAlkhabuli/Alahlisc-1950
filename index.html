@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نظام دفعات المحلات | الأهلي الرياضي</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #fff;
+      margin: 20px;
+      direction: rtl;
+    }
+    h1 {
+      text-align: center;
+      color: #006400;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    #details, #history {
+      display: none;
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-top: 20px;
+      background: #f9f9f9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #228B22;
+      color: white;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: gray;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>نظام دفعات المحلات - النادي الأهلي الرياضي</h1>
+
+<label>اختر رقم المحل:</label>
+<select id="shopSelect" onchange="showDetails()">
+  <option value="">-- اختر --</option>
+  <option value="nan" data-name="nan" data-stage="nan" data-floor="nan" data-rent="nan" data-shop="nan">محل nan - nan</option>
+<option value="1.0" data-name="محمد احمد أبو شعالة" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="1.0">محل 1.0 - محمد احمد أبو شعالة</option>
+<option value="2.0" data-name="عبد الوهاب محمد" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="2.0">محل 2.0 - عبد الوهاب محمد</option>
+<option value="3.0" data-name="بهاء الدين محمد جاد الله" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="3.0">محل 3.0 - بهاء الدين محمد جاد الله</option>
+<option value="4.0" data-name="معز المنير محمد التريكي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="4.0">محل 4.0 - معز المنير محمد التريكي</option>
+<option value="5.0" data-name="الهادي سعيد المختار" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="5.0">محل 5.0 - الهادي سعيد المختار</option>
+<option value="6.0" data-name="حسين ابوبكر العزابي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="6.0">محل 6.0 - حسين ابوبكر العزابي</option>
+<option value="7.0" data-name="نورالدين سعيد المختار" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="7.0">محل 7.0 - نورالدين سعيد المختار</option>
+<option value="8.0" data-name="علي سالم" data-stage="1.0" data-floor="0" data-rent="2000.0" data-shop="8.0">محل 8.0 - علي سالم</option>
+<option value="9.0" data-name="حسام حسين الكاديكي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="9.0">محل 9.0 - حسام حسين الكاديكي</option>
+<option value="9.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="9.0">محل 9.0 - نبيل عياد الدريبي</option>
+<option value="10.0" data-name="عبد الفتاح ديهوم" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="10.0">محل 10.0 - عبد الفتاح ديهوم</option>
+<option value="11.0" data-name="احمد علي الرطب" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="11.0">محل 11.0 - احمد علي الرطب</option>
+<option value="12.0" data-name="نبيل عياد القلال" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="12.0">محل 12.0 - نبيل عياد القلال</option>
+<option value="13.0" data-name="وجدي محمد" data-stage="1.0" data-floor="0" data-rent="1250.0" data-shop="13.0">محل 13.0 - وجدي محمد</option>
+<option value="14.0" data-name="وجدي محمد" data-stage="1.0" data-floor="0" data-rent="1250.0" data-shop="14.0">محل 14.0 - وجدي محمد</option>
+<option value="15.0" data-name="أسامة علي ابوعرقوب" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="15.0">محل 15.0 - أسامة علي ابوعرقوب</option>
+<option value="16.0" data-name="شركة ابرار لاستيراد قطع الغيار" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="16.0">محل 16.0 - شركة ابرار لاستيراد قطع الغيار</option>
+<option value="17.0" data-name="عادل بشير الدريبي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="17.0">محل 17.0 - عادل بشير الدريبي</option>
+<option value="18.0" data-name="محمد عبد الناصر" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="18.0">محل 18.0 - محمد عبد الناصر</option>
+<option value="19.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="19.0">محل 19.0 - نبيل عياد الدريبي</option>
+<option value="20.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="20.0">محل 20.0 - نبيل عياد الدريبي</option>
+<option value="21.0" data-name="الشركة المثالية" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="21.0">محل 21.0 - الشركة المثالية</option>
+<option value="22.0" data-name="أسامة سالم الرقيعي" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="22.0">محل 22.0 - أسامة سالم الرقيعي</option>
+<option value="23.0" data-name="علي ميلود امقاتل" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="23.0">محل 23.0 - علي ميلود امقاتل</option>
+<option value="24.0" data-name="علي ميلود امقاتل" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="24.0">محل 24.0 - علي ميلود امقاتل</option>
+<option value="25.0" data-name="عبد الحميد سالم زايد" data-stage="1.0" data-floor="0" data-rent="1500.0" data-shop="25.0">محل 25.0 - عبد الحميد سالم زايد</option>
+<option value="1.0" data-name="الياس مسعود الباروني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="1.0">محل 1.0 - الياس مسعود الباروني</option>
+<option value="2.0" data-name="الياس مسعود الباروني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="2.0">محل 2.0 - الياس مسعود الباروني</option>
+<option value="3.0" data-name="الياس مسعود الباروني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="3.0">محل 3.0 - الياس مسعود الباروني</option>
+<option value="4.0" data-name="الياس مسعود الباروني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="4.0">محل 4.0 - الياس مسعود الباروني</option>
+<option value="5.0" data-name="الياس مسعود الباروني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="5.0">محل 5.0 - الياس مسعود الباروني</option>
+<option value="6.0" data-name="البشير محمد الأخضر" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="6.0">محل 6.0 - البشير محمد الأخضر</option>
+<option value="7.0" data-name="وجدي محمد" data-stage="1.0" data-floor="1" data-rent="1250.0" data-shop="7.0">محل 7.0 - وجدي محمد</option>
+<option value="8.0" data-name="محمد صالح الجهاني" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="8.0">محل 8.0 - محمد صالح الجهاني</option>
+<option value="9.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="9.0">محل 9.0 - نبيل عياد الدريبي</option>
+<option value="10.0" data-name="ناهد سليمان" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="10.0">محل 10.0 - ناهد سليمان</option>
+<option value="10.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="10.0">محل 10.0 - نبيل عياد الدريبي</option>
+<option value="11.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="11.0">محل 11.0 - نبيل عياد الدريبي</option>
+<option value="12.0" data-name="سهيل عياد الدريبي" data-stage="1.0" data-floor="1" data-rent="750.0" data-shop="12.0">محل 12.0 - سهيل عياد الدريبي</option>
+<option value="13.0" data-name="نبيل عياد الدريبي" data-stage="1.0" data-floor="1" data-rent="1500.0" data-shop="13.0">محل 13.0 - نبيل عياد الدريبي</option>
+<option value="1.0" data-name="احمد نورالدين محمد ابوعائشة" data-stage="2.0" data-floor="0" data-rent="230.0" data-shop="1.0">محل 1.0 - احمد نورالدين محمد ابوعائشة</option>
+<option value="2.0" data-name="مصطفى سالم كريم" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="2.0">محل 2.0 - مصطفى سالم كريم</option>
+<option value="3.0" data-name="الشركة الاهلية لاستيراد المواد الغذائية" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="3.0">محل 3.0 - الشركة الاهلية لاستيراد المواد الغذائية</option>
+<option value="4.0" data-name="الشركة الاهلية لاستيراد المواد الغذائية" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="4.0">محل 4.0 - الشركة الاهلية لاستيراد المواد الغذائية</option>
+<option value="5.0" data-name="الشركة الاهلية لاستيراد المواد الغذائية" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="5.0">محل 5.0 - الشركة الاهلية لاستيراد المواد الغذائية</option>
+<option value="6.0" data-name="الشركة الاهلية لاستيراد المواد الغذائية" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="6.0">محل 6.0 - الشركة الاهلية لاستيراد المواد الغذائية</option>
+<option value="7.0" data-name="فرج احمد الحراري" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="7.0">محل 7.0 - فرج احمد الحراري</option>
+<option value="8.0" data-name="فرج احمد الحراري" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="8.0">محل 8.0 - فرج احمد الحراري</option>
+<option value="9.0" data-name="مصطفى سالم كريم" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="9.0">محل 9.0 - مصطفى سالم كريم</option>
+<option value="10.0" data-name="الشريف عبد الله ابوكراع" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="10.0">محل 10.0 - الشريف عبد الله ابوكراع</option>
+<option value="11.0" data-name="الشريف عبد الله ابوكراع" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="11.0">محل 11.0 - الشريف عبد الله ابوكراع</option>
+<option value="12.0" data-name="عماد ضو الكيلاني" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="12.0">محل 12.0 - عماد ضو الكيلاني</option>
+<option value="13.0" data-name="حسام يوسف ناجم" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="13.0">محل 13.0 - حسام يوسف ناجم</option>
+<option value="14.0" data-name="محمد صالح الجهاني" data-stage="2.0" data-floor="0" data-rent="1500.0" data-shop="14.0">محل 14.0 - محمد صالح الجهاني</option>
+<option value="15.0" data-name="حاتم يوسف ناجم" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="15.0">محل 15.0 - حاتم يوسف ناجم</option>
+<option value="16.0" data-name="عبد الناصر محمد عياد" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="16.0">محل 16.0 - عبد الناصر محمد عياد</option>
+<option value="18.0" data-name="شركة النجمة لاستيراد وسائل النقل" data-stage="2.0" data-floor="0" data-rent="1100.0" data-shop="18.0">محل 18.0 - شركة النجمة لاستيراد وسائل النقل</option>
+<option value="19.0" data-name="وليد محمد غيطة" data-stage="2.0" data-floor="0" data-rent="1100.0" data-shop="19.0">محل 19.0 - وليد محمد غيطة</option>
+<option value="20.0" data-name="شركة السهل الأول" data-stage="2.0" data-floor="0" data-rent="1100.0" data-shop="20.0">محل 20.0 - شركة السهل الأول</option>
+<option value="21.0" data-name="محمد عبد العال عبد الحفيظ" data-stage="2.0" data-floor="0" data-rent="1100.0" data-shop="21.0">محل 21.0 - محمد عبد العال عبد الحفيظ</option>
+<option value="22.0" data-name="خالد علي الشريف" data-stage="2.0" data-floor="0" data-rent="1500.0" data-shop="22.0">محل 22.0 - خالد علي الشريف</option>
+<option value="23.0" data-name="الزبير مسعود ابونوارة" data-stage="2.0" data-floor="0" data-rent="1500.0" data-shop="23.0">محل 23.0 - الزبير مسعود ابونوارة</option>
+<option value="24.0" data-name="خليفة مسعود ابونوارة" data-stage="2.0" data-floor="0" data-rent="1000.0" data-shop="24.0">محل 24.0 - خليفة مسعود ابونوارة</option>
+<option value="1.0" data-name="شركة مارين" data-stage="2.0" data-floor="1" data-rent="1500.0" data-shop="1.0">محل 1.0 - شركة مارين</option>
+<option value="2.0" data-name="مراجع عطية العقوري" data-stage="2.0" data-floor="1" data-rent="1500.0" data-shop="2.0">محل 2.0 - مراجع عطية العقوري</option>
+<option value="3.0" data-name="المهدي مصطفى سحبان" data-stage="2.0" data-floor="1" data-rent="1500.0" data-shop="3.0">محل 3.0 - المهدي مصطفى سحبان</option>
+<option value="4.0" data-name="المهدي مصطفى سحبان" data-stage="2.0" data-floor="1" data-rent="1500.0" data-shop="4.0">محل 4.0 - المهدي مصطفى سحبان</option>
+<option value="4.0" data-name="شركة الظبي (شقة 4)" data-stage="2.0" data-floor="1" data-rent="1000.0" data-shop="4.0">محل 4.0 - شركة الظبي (شقة 4)</option>
+<option value="5.0" data-name="المهدي مصطفى سليمان" data-stage="2.0" data-floor="1" data-rent="1500.0" data-shop="5.0">محل 5.0 - المهدي مصطفى سليمان</option>
+<option value="7.0" data-name="محمد صالح الجهاني" data-stage="2.0" data-floor="1" data-rent="700.0" data-shop="7.0">محل 7.0 - محمد صالح الجهاني</option>
+<option value="10.0" data-name="محمد صالح الجهاني" data-stage="2.0" data-floor="1" data-rent="700.0" data-shop="10.0">محل 10.0 - محمد صالح الجهاني</option>
+<option value="14.0" data-name="محمد صالح الجهاني" data-stage="2.0" data-floor="1" data-rent="840.0" data-shop="14.0">محل 14.0 - محمد صالح الجهاني</option>
+<option value="17.0" data-name="محمد صالح الجهاني" data-stage="2.0" data-floor="1" data-rent="700.0" data-shop="17.0">محل 17.0 - محمد صالح الجهاني</option>
+<option value="1.0" data-name="احمد نورالدين محمد ابوعائشة" data-stage="4.0" data-floor="0" data-rent="230.0" data-shop="1.0">محل 1.0 - احمد نورالدين محمد ابوعائشة</option>
+<option value="2.0" data-name="مراجع عطية العقوري" data-stage="4.0" data-floor="0" data-rent="336.0" data-shop="2.0">محل 2.0 - مراجع عطية العقوري</option>
+<option value="4.0" data-name="عبد السلام البهلول" data-stage="4.0" data-floor="0" data-rent="430.0" data-shop="4.0">محل 4.0 - عبد السلام البهلول</option>
+<option value="6.0" data-name="سراج مسعود سلامة" data-stage="4.0" data-floor="0" data-rent="335.0" data-shop="6.0">محل 6.0 - سراج مسعود سلامة</option>
+<option value="1.0" data-name="نورالدين محمد ابوعائشة" data-stage="3.0" data-floor="0" data-rent="240.0" data-shop="1.0">محل 1.0 - نورالدين محمد ابوعائشة</option>
+<option value="2.0" data-name="ايمن محمد خليفة" data-stage="2.0" data-floor="كشك" data-rent="100.0" data-shop="2.0">محل 2.0 - ايمن محمد خليفة</option>
+<option value="3.0" data-name="نورالدين محمد ابوعائشة" data-stage="1.0" data-floor="nan" data-rent="150.0" data-shop="3.0">محل 3.0 - نورالدين محمد ابوعائشة</option>
+<option value="2.0" data-name="محمد زيد اللالي" data-stage="1.0" data-floor="nan" data-rent="150.0" data-shop="2.0">محل 2.0 - محمد زيد اللالي</option>
+<option value="4.0" data-name="علاء بشير رجب" data-stage="nan" data-floor="كشك" data-rent="100.0" data-shop="4.0">محل 4.0 - علاء بشير رجب</option>
+<option value="3.0" data-name="مصطفى محمد الزعتري" data-stage="2.0" data-floor="مكتب" data-rent="276.0" data-shop="3.0">محل 3.0 - مصطفى محمد الزعتري</option>
+<option value="1.0" data-name="هيثم محمد سرير" data-stage="2.0" data-floor="0" data-rent="500.0" data-shop="1.0">محل 1.0 - هيثم محمد سرير</option>
+<option value="1.0" data-name="فوزي الطيب الخطابي" data-stage="2.0" data-floor="0" data-rent="250.0" data-shop="1.0">محل 1.0 - فوزي الطيب الخطابي</option>
+<option value="5.0" data-name="رمضان منصور الراقوبي" data-stage="1.0" data-floor="nan" data-rent="150.0" data-shop="5.0">محل 5.0 - رمضان منصور الراقوبي</option>
+<option value="4.0" data-name="عبد السلام البهلول قريش" data-stage="1.0" data-floor="nan" data-rent="276.0" data-shop="4.0">محل 4.0 - عبد السلام البهلول قريش</option>
+
+</select>
+
+<div id="details">
+  <p>اسم المستأجر: <span id="name"></span></p>
+  <p>المرحلة: <span id="stage"></span></p>
+  <p>الدور: <span id="floor"></span></p>
+  <p>الإيجار الشهري: <span id="rent"></span> د.ل</p>
+
+  <label>الشهر:</label>
+  <input type="month" id="monthInput" value="2025-03">
+
+  <label>المبلغ:</label>
+  <input type="number" id="amountInput">
+
+  <button onclick="addRow()">إضافة الدفعة</button>
+</div>
+
+<div id="history">
+  <h3>السجل التاريخي للدفعات</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>رقم المحل</th><th>المرحلة</th><th>المستأجر</th>
+        <th>الشهر</th><th>تاريخ الدفع</th><th>القيمة</th>
+      </tr>
+    </thead>
+    <tbody id="historyBody"></tbody>
+  </table>
+
+  <button onclick="exportToExcel()">تصدير إلى Excel</button>
+</div>
+
+<footer>
+  جميع الحقوق محفوظة &copy; مركز المعلومات والتوثيق السياحي 2025 | تصميم وبرمجة الخبولي
+</footer>
+
+<script>
+  function showDetails() {
+    const select = document.getElementById('shopSelect');
+    const option = select.options[select.selectedIndex];
+    if (option.value === "") {
+      document.getElementById('details').style.display = 'none';
+      return;
+    }
+    document.getElementById('name').textContent = option.getAttribute('data-name');
+    document.getElementById('stage').textContent = option.getAttribute('data-stage');
+    document.getElementById('floor').textContent = option.getAttribute('data-floor');
+    document.getElementById('rent').textContent = option.getAttribute('data-rent');
+    document.getElementById('details').style.display = 'block';
+  }
+
+  function addRow() {
+    const select = document.getElementById('shopSelect');
+    const option = select.options[select.selectedIndex];
+    const shop = option.getAttribute('data-shop');
+    const name = option.getAttribute('data-name');
+    const stage = option.getAttribute('data-stage');
+    const month = document.getElementById('monthInput').value;
+    const amount = document.getElementById('amountInput').value;
+    const date = new Date().toISOString().split('T')[0];
+
+    const row = `<tr>
+      <td>${shop}</td><td>${stage}</td><td>${name}</td>
+      <td>${month}</td><td>${date}</td><td>${amount}</td>
+    </tr>`;
+    document.getElementById('historyBody').innerHTML += row;
+    document.getElementById('history').style.display = 'block';
+    document.getElementById('amountInput').value = '';
+  }
+
+  function exportToExcel() {
+    const rows = document.querySelectorAll("#history table tr");
+    let csv = "";
+    rows.forEach(row => {
+      const cols = row.querySelectorAll("th, td");
+      csv += Array.from(cols).map(col => col.innerText).join(",") + "\n";
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "سجل_الدفعات.csv";
+    link.click();
+  }
+</script>
+
+</body>
+</html>
