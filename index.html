@@ -2,117 +2,106 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة تحكم - الأهلي طرابلس</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <title>نظام الاستثمار - النادي الأهلي 2025</title>
   <style>
-    body { font-family: 'Cairo', sans-serif; margin: 20px; direction: rtl; }
-    h1 { color: #006400; }
-    .summary { margin-bottom: 30px; }
-    .chart-container { margin-bottom: 40px; }
-    canvas { max-width: 100%; }
+    body { font-family: 'Cairo', sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #006400; text-align: center; }
+    nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .tab-btn {
+      padding: 10px 20px; border: none; border-radius: 8px;
+      background-color: #006400; color: white; cursor: pointer;
+    }
+    .tab-btn.active { background-color: goldenrod; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; white-space: nowrap; }
+    th { background-color: #006400; color: white; }
   </style>
 </head>
 <body>
-  <h1>📊 لوحة تحكم المشروع الاستثماري</h1>
-  <div class="summary" id="dashboard"></div>
+  <h1>📊 نظام الاستثمار - النادي الأهلي 2025</h1>
+  <nav>
+    <button class="tab-btn active" onclick="showTab(0)">مستوفي العقود</button>
+    <button class="tab-btn" onclick="showTab(1)">مستوفين الالتزام</button>
+    <button class="tab-btn" onclick="showTab(2)">عليهم التزام</button>
+    <button class="tab-btn" onclick="showTab(3)">نواقص ومراجعة</button>
+  </nav>
 
-  <div class="chart-container"><canvas id="chartPhase"></canvas></div>
-  <div class="chart-container"><canvas id="chartPaid"></canvas></div>
-  <div class="chart-container"><canvas id="chartMonths"></canvas></div>
+  <div class="tab-content active" id="tab0">
+<div class="filters">
+  <input type="text" class="nameFilter" placeholder="🔍 اسم المستأجر">
+  <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
+  <button class="exportBtn">📥 تصدير إلى Excel</button>
+</div>
+<table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body0"></tbody></table></div>
+  <div class="tab-content" id="tab1">
+<div class="filters">
+  <input type="text" class="nameFilter" placeholder="🔍 اسم المستأجر">
+  <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
+  <button class="exportBtn">📥 تصدير إلى Excel</button>
+</div>
+<table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body1"></tbody></table></div>
+  <div class="tab-content" id="tab2">
+<div class="filters">
+  <input type="text" class="nameFilter" placeholder="🔍 اسم المستأجر">
+  <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
+  <button class="exportBtn">📥 تصدير إلى Excel</button>
+</div>
+<table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body2"></tbody></table></div>
+  <div class="tab-content" id="tab3">
+<div class="filters">
+  <input type="text" class="nameFilter" placeholder="🔍 اسم المستأجر">
+  <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
+  <button class="exportBtn">📥 تصدير إلى Excel</button>
+</div>
+<table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body3"></tbody></table></div>
 
-  <script>
-    function renderDashboard(datasets) {
-      const all = [...datasets[0], ...datasets[1], ...datasets[2]];
-      const totalTenants = all.length;
-      const totalMonthly = all.reduce((sum, r) => sum + (parseFloat(r['الإيجار']) || 0), 0);
-      const totalYearly = totalMonthly * 12;
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    let data;
+fetch('alahlisc.json')
+  .then(res => res.json())
+  .then(json => { data = json;  });
+    const sections = [data.paid, data.commitment, data.outstanding, data.deficiencies];
+    const columns = ["المستأجر", "المرحلة", "الدور", "رقم المحل", "الإيجار", "مقدم العقد", "قيمة الاستثمار", "قيمة التطوير", "تاريخ آخر سداد", "الباقي", "تاريخ بداية العقد", "تاريخ نهاية العقد", "ملاحظات", "القيمة المدفوعة", "رقم الإيصال"];
 
-      document.getElementById('dashboard').innerHTML = `
-        <p>📌 عدد المستأجرين: <strong>${totalTenants}</strong></p>
-        <p>💰 إجمالي الإيجار الشهري: <strong>${totalMonthly.toLocaleString()} د.ل</strong></p>
-        <p>💵 إجمالي الإيجار السنوي: <strong>${totalYearly.toLocaleString()} د.ل</strong></p>
-      `;
-
-      // رسم حسب المرحلة
-      const phaseCounts = {};
-      all.forEach(r => {
-        const phase = r['المرحلة'] || 'غير محدد';
-        phaseCounts[phase] = (phaseCounts[phase] || 0) + 1;
+    function showTab(i) {
+      document.querySelectorAll('.tab-content').forEach((el, idx) => {
+        el.classList.toggle('active', i === idx);
       });
-      new Chart(document.getElementById('chartPhase'), {
-        type: 'pie',
-        data: {
-          labels: Object.keys(phaseCounts),
-          datasets: [{
-            data: Object.values(phaseCounts),
-            backgroundColor: ['#66bb6a','#ffa726','#42a5f5','#ef5350','#ab47bc']
-          }]
-        },
-        options: { plugins: { title: { display: true, text: 'توزيع المستأجرين حسب المرحلة' } } }
-      });
-
-      // رسم حسب القيمة المدفوعة
-      const paidCounts = {};
-      all.forEach(r => {
-        const val = parseFloat(r['القيمة المدفوعة']);
-        if (val > 0) {
-          paidCounts[val] = (paidCounts[val] || 0) + 1;
-        }
-      });
-      new Chart(document.getElementById('chartPaid'), {
-        type: 'bar',
-        data: {
-          labels: Object.keys(paidCounts),
-          datasets: [{
-            label: 'عدد من دفعوا هذه القيمة',
-            data: Object.values(paidCounts),
-            backgroundColor: '#42a5f5'
-          }]
-        },
-        options: {
-          plugins: { title: { display: true, text: 'توزيع حسب القيمة المدفوعة' } },
-          responsive: true,
-          indexAxis: 'y'
-        }
-      });
-
-      // رسم حسب أشهر تاريخ آخر سداد
-      const monthCounts = {};
-      all.forEach(r => {
-        const date = r['تاريخ آخر سداد'];
-        if (date && date.length >= 7) {
-          const month = date.substring(0, 7);
-          monthCounts[month] = (monthCounts[month] || 0) + 1;
-        }
-      });
-      new Chart(document.getElementById('chartMonths'), {
-        type: 'bar',
-        data: {
-          labels: Object.keys(monthCounts),
-          datasets: [{
-            label: 'عدد السداد في الشهر',
-            data: Object.values(monthCounts),
-            backgroundColor: '#66bb6a'
-          }]
-        },
-        options: {
-          plugins: { title: { display: true, text: 'توزيع حسب أشهر السداد' } },
-          responsive: true
-        }
+      document.querySelectorAll('.tab-btn').forEach((el, idx) => {
+        el.classList.toggle('active', i === idx);
       });
     }
 
-    window.onload = function () {
-      fetch('alahlisc.json')
-        .then(res => res.json())
-        .then(data => {
-          const datasets = [data.paid, data.commitment, data.outstanding, data.deficiencies];
-          renderDashboard(datasets);
-        })
-        .catch(err => console.error("خطأ في تحميل البيانات:", err));
-    };
+    function renderTables() {
+      sections.forEach((rows, i) => {
+        const body = document.getElementById('body' + i);
+        rows.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML += `<td>${row["المستأجر"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["المرحلة"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["الدور"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["رقم المحل"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["الإيجار"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["مقدم العقد"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["قيمة الاستثمار"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["قيمة التطوير"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["تاريخ آخر سداد"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["الباقي"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["تاريخ بداية العقد"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["تاريخ نهاية العقد"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["ملاحظات"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["القيمة المدفوعة"] || ""}</td>`;
+        tr.innerHTML += `<td>${row["رقم الإيصال"] || ""}</td>`;
+          body.appendChild(tr);
+        });
+      });
+    }
+
+    
   </script>
 </body>
 </html>
