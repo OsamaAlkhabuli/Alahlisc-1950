@@ -3,7 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>إدارة المستأجرين</title>
+  <title>إدخال مستأجر - نظام محلي</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body { font-family: 'Cairo', sans-serif; background: #f4f4f4; padding: 20px; direction: rtl; }
@@ -16,6 +16,7 @@
     th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
     th { background-color: #006400; color: white; }
     .filters { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    #message { text-align: center; color: green; font-weight: bold; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -36,6 +37,7 @@
     <label>القيمة المدفوعة</label><input type="number" name="القيمة المدفوعة" required />
     <label>رقم الإيصال</label><input type="text" name="رقم الإيصال" required />
     <button type="submit">💾 حفظ البيانات</button>
+    <div id="message"></div>
   </form>
 
   <div class="filters">
@@ -48,15 +50,11 @@
   <div id="dataTable"></div>
 
   <script>
-    let tenants = [];
+    let tenants = JSON.parse(localStorage.getItem('tenantsData') || '[]');
 
-    fetch('https://raw.githubusercontent.com/OsamaAlkhabuli/Alahlisc-1950/main/tenants_data.json')
-      .then(response => response.json())
-      .then(data => {
-        tenants = data;
-        renderTable();
-      })
-      .catch(error => console.warn('تعذر تحميل البيانات من GitHub:', error));
+    function saveToLocalStorage() {
+      localStorage.setItem('tenantsData', JSON.stringify(tenants));
+    }
 
     document.getElementById('tenantForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -64,7 +62,9 @@
       const tenant = {};
       formData.forEach((value, key) => tenant[key] = value);
       tenants.push(tenant);
+      saveToLocalStorage();
       this.reset();
+      document.getElementById('message').textContent = '✅ تم حفظ البيانات بنجاح!';
       renderTable();
     });
 
@@ -106,6 +106,9 @@
       };
       html2pdf().set(opt).from(element).save();
     }
+
+    // Render on load
+    renderTable();
   </script>
 </body>
 </html>
