@@ -1,188 +1,172 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>  ادارة الاستثمار -نادي الأهلي </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المشروع الاستثماري - الأهلي طرابلس</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    body { font-family: 'Cairo', sans-serif; margin: 20px; background: #f9f9f9; }
-    h1 { text-align: center; color: #006400; }
-    nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0; padding: 0;
+      background: #f8f9fa;
+      color: #222;
+    }
+    header {
+      background-color: #006400;
+      color: goldenrod;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+    nav {
+      background: #e9ecef;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
     .tab-btn {
-      padding: 10px 20px; border: none; border-radius: 8px;
-      background-color: #006400; color: white; cursor: pointer;
+      background-color: goldenrod;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .tab-btn.active { background-color: goldenrod; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+    .tab-btn.active {
+      background-color: #006400;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px;
+    }
+    .tab-content.active {
+      display: block;
+    }
     .filters input, .filters select {
-      padding: 5px 10px; margin-left: 10px; min-width: 160px;
+      padding: 6px 12px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
     }
-    table { width: 100%; border-collapse: collapse; background: white; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; white-space: nowrap; }
-    th { background-color: #006400; color: white; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #006400;
+      color: white;
+    }
+    footer {
+      background: #006400;
+      color: goldenrod;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h1>📊 لوحة النظام الاستثماري - النادي الأهلي 2025</h1>
+  <header>
+    نادي الأهلي الرياضي<br>
+    إدارة الاستثمار<br>
+    المشروع الاستثماري
+  </header>
   <nav>
-    <button class="tab-btn active" onclick="showTab(0)">مستوفي العقود</button>
-    <button class="tab-btn" onclick="showTab(1)">مستوفين الالتزام</button>
-    <button class="tab-btn" onclick="showTab(2)">عليهم التزام</button>
-    <button class="tab-btn" onclick="showTab(3)">نواقص ومراجعة</button>
+    <button class="tab-btn active" onclick="showTab(0)">📌 الكاملة</button>
+    <button class="tab-btn" onclick="showTab(1)">📌 غير كاملة</button>
+    <button class="tab-btn" onclick="showTab(2)">📌 مراجعة القانونية</button>
   </nav>
 
   <div class="tab-content active" id="tab0">
     <div class="filters">
-      <input class="nameFilter" placeholder="🔍 اسم المستأجر">
-      <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
-      <button class="exportBtn">📤 تصدير Excel</button>
+      <input id="search0" placeholder="🔍 اسم المستأجر">
+      <select id="filter0">
+        <option value="">📂 كل المراحل</option>
+      </select>
     </div>
-    <table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body0"></tbody></table>
+    <div id="table0"></div>
   </div>
 
   <div class="tab-content" id="tab1">
     <div class="filters">
-      <input class="nameFilter" placeholder="🔍 اسم المستأجر">
-      <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
-      <button class="exportBtn">📤 تصدير Excel</button>
+      <input id="search1" placeholder="🔍 اسم المستأجر">
+      <select id="filter1">
+        <option value="">📂 كل المراحل</option>
+      </select>
     </div>
-    <table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body1"></tbody></table>
+    <div id="table1"></div>
   </div>
 
   <div class="tab-content" id="tab2">
     <div class="filters">
-      <input class="nameFilter" placeholder="🔍 اسم المستأجر">
-      <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
-      <button class="exportBtn">📤 تصدير Excel</button>
+      <input id="search2" placeholder="🔍 اسم المستأجر">
+      <select id="filter2">
+        <option value="">📂 كل المراحل</option>
+      </select>
     </div>
-    <table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body2"></tbody></table>
+    <div id="table2"></div>
   </div>
 
-  <div class="tab-content" id="tab3">
-    <div class="filters">
-      <input class="nameFilter" placeholder="🔍 اسم المستأجر">
-      <select class="phaseFilter"><option value="">📂 كل المراحل</option></select>
-      <button class="exportBtn">📤 تصدير Excel</button>
-    </div>
-    <table><thead><tr><th>المستأجر</th><th>المرحلة</th><th>الدور</th><th>رقم المحل</th><th>الإيجار</th><th>مقدم العقد</th><th>قيمة الاستثمار</th><th>قيمة التطوير</th><th>تاريخ آخر سداد</th><th>الباقي</th><th>تاريخ بداية العقد</th><th>تاريخ نهاية العقد</th><th>ملاحظات</th><th>القيمة المدفوعة</th><th>رقم الإيصال</th></tr></thead><tbody id="body3"></tbody></table>
-  </div>
+  <footer>
+    تصميم: م. أسامة الخبولي - 2025
+  </footer>
 
-<script>
-  // تعيين أسماء الأعمدة مع المفاتيح المقابلة في JSON
-  const columns = [
-    {key: "المستاجر", name: "المستأجر"},
-    {key: "المرحلة", name: "المرحلة"},
-    {key: "الدور", name: "الدور"},
-    {key: "رقم المحل", name: "رقم المحل"},
-    {key: "الايجار", name: "الإيجار"},
-    {key: "مقدم العقد", name: "مقدم العقد"},
-    {key: "مقدم العقد", name: "قيمة الاستثمار"}, // ملاحظة: نفس المفتاح
-    {key: "Unnamed: 7", name: "قيمة التطوير"},
-    {key: "تاريخ اخر سداد", name: "تاريخ آخر سداد"},
-    {key: "الباقي", name: "الباقي"},
-    {key: "تاريخ بداية العقد", name: "تاريخ بداية العقد"},
-    {key: "تاريخ نهاية العقد", name: "تاريخ نهاية العقد"},
-    {key: "ملاحظات", name: "ملاحظات"},
-    {key: "القيمة المدفوعة", name: "القيمة المدفوعة"},
-    {key: "رقم الايصال", name: "رقم الإيصال"}
-  ];
+  <script>
+    let data = {};
 
-  let data = {};
-
-  function showTab(i) {
-    document.querySelectorAll('.tab-content').forEach((el, idx) => {
-      el.classList.toggle('active', i === idx);
-    });
-    document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-      btn.classList.toggle('active', i === idx);
-    });
-  }
-
-  function mapRowToColumns(row) {
-    const mapped = {};
-    columns.forEach(col => {
-      mapped[col.name] = row[col.key] || "";
-    });
-    return mapped;
-  }
-
-  function renderTables() {
-    // تعيين البيانات من JSON إلى الأقسام المناسبة
-    const sections = [
-      data.complete ? data.complete.slice(1) : [], // تجاهل الصف الأول (العناوين)
-      data.not_completed ? data.not_completed.slice(3) : [], // تجاهل الصفوف الأولى (العناوين)
-      data.additions ? data.additions.slice(2) : [], // تجاهل الصفوف الأولى (العناوين)
-      data.legal_review ? data.legal_review.slice(2) : [] // تجاهل الصفوف الأولى (العناوين)
-    ];
-    
-    sections.forEach((rows, i) => {
-      const tbody = document.getElementById('body' + i);
-      const filterName = document.querySelectorAll('.nameFilter')[i];
-      const filterPhase = document.querySelectorAll('.phaseFilter')[i];
-      const exportBtn = document.querySelectorAll('.exportBtn')[i];
-
-      // مسح خيارات المرحلة الحالية
-      while (filterPhase.options.length > 1) {
-        filterPhase.remove(1);
-      }
-
-      // إضافة خيارات المرحلة
-      const phases = [...new Set(rows.map(r => r['المرحلة']))].filter(Boolean);
-      phases.forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p; opt.textContent = p;
-        filterPhase.appendChild(opt);
+    function showTab(index) {
+      document.querySelectorAll('.tab-content').forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
       });
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+    }
 
-      function applyFilters() {
-        tbody.innerHTML = '';
-        const nameVal = filterName.value.trim();
-        const phaseVal = filterPhase.value;
-        
-        const filtered = rows.filter(r => {
-          const tenantName = r['المستاجر'] || r['Unnamed: 1'] || '';
-          const phase = r['المرحلة'] || r['Unnamed: 2'] || '';
-          
-          return (!nameVal || tenantName.includes(nameVal)) &&
-                 (!phaseVal || phase === phaseVal);
-        });
+    function populateTable(rows, index) {
+      const search = document.getElementById('search' + index);
+      const filter = document.getElementById('filter' + index);
+      const container = document.getElementById('table' + index);
+      const phases = [...new Set(rows.map(r => r['المرحلة']).filter(Boolean))];
+      filter.innerHTML = '<option value="">📂 كل المراحل</option>' + phases.map(p => `<option value="${p}">${p}</option>`).join('');
 
-        filtered.forEach(row => {
-          const mappedRow = mapRowToColumns(row);
-          const tr = document.createElement('tr');
-          
-          columns.forEach(col => {
-            tr.innerHTML += `<td>${mappedRow[col.name] || ""}</td>`;
-          });
-          
-          tbody.appendChild(tr);
-        });
+      function render() {
+        const q = search.value.trim();
+        const f = filter.value;
+        const filtered = rows.filter(r => (!q || (r['المستأجر'] || '').includes(q)) && (!f || r['المرحلة'] === f));
+        if (!filtered.length) return container.innerHTML = '<p>لا توجد بيانات</p>';
+        const cols = Object.keys(filtered[0]);
+        let html = '<table><thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+        html += filtered.map(r => '<tr>' + cols.map(c => `<td>${r[c] || ''}</td>`).join('') + '</tr>').join('');
+        html += '</tbody></table>';
+        container.innerHTML = html;
       }
 
-      filterName.oninput = applyFilters;
-      filterPhase.onchange = applyFilters;
-      applyFilters();
+      search.oninput = filter.onchange = render;
+      render();
+    }
 
-      exportBtn.onclick = () => {
-        const tbl = exportBtn.closest('.tab-content').querySelector('table');
-        const wb = XLSX.utils.table_to_book(tbl, { sheet: "بيانات" });
-        XLSX.writeFile(wb, 'table' + i + '.xlsx');
-      };
-    });
-  }
-
-  // تحميل البيانات من ملف JSON
-  fetch('alahlisc (1).json')
-    .then(res => res.json())
-    .then(json => {
-      data = json; 
-      renderTables();
-    })
-    .catch(err => {
-      console.error('Error loading data:', err);
-      alert('حدث خطأ في تحميل البيانات. الرجاء التحقق من ملف JSON.');
-    });
-</script>
+    fetch('alahlisc.json')
+      .then(res => res.json())
+      .then(json => {
+        data = json;
+        populateTable(data.complete, 0);
+        populateTable(data.not_completed, 1);
+        populateTable(data.legal_review, 2);
+      });
+  </script>
 </body>
 </html>
