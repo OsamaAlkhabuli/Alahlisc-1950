@@ -45,7 +45,17 @@
   <div class="tab-content active" id="tab0">
     <input placeholder="🔍 اسم المستأجر" id="search0">
     <select id="filter0"><option value="">📂 كل المراحل</option></select>
-    <div id="table0"></div>
+    
+<input type="text" id="searchInput" placeholder="🔍 ابحث باسم أو رقم أو مرحلة..." 
+       onkeyup="smartSearch('searchInput', 'tenantsTable')" 
+       style="padding: 10px; width: 300px; margin-bottom: 20px; display: block; margin-right: auto; margin-left: auto; border: 1px solid #ccc; border-radius: 6px;">
+
+<div style="margin: 10px 0; text-align: center;">
+  <button onclick="exportToExcel()" style="padding: 8px 16px; background: green; color: white; border: none; border-radius: 6px;">📥 Excel</button>
+  <button onclick="exportToPDF()" style="padding: 8px 16px; background: goldenrod; color: white; border: none; border-radius: 6px;">📄 PDF</button>
+</div>
+
+<div id="table0"></div>
   </div>
   <div class="tab-content" id="tab1">
     <input placeholder="🔍 اسم المستأجر" id="search1">
@@ -91,7 +101,7 @@
             (!f || r['المرحلة'] == f)
           );
           const cols = Object.keys(filtered[0] || {});
-          let html = '<table><thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+          let html = '<table id="tenantsTable"><thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
           html += filtered.map(r => '<tr>' + cols.map(c => `<td>${r[c]}</td>`).join('') + '</tr>').join('');
           html += '</tbody></table>';
           container.innerHTML = html || '<p>لا توجد بيانات</p>';
@@ -104,5 +114,49 @@
 
     window.onload = fetchAndRender;
   </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function smartSearch(inputId, tableId) {
+  const input = document.getElementById(inputId);
+  const filter = input.value.toLowerCase();
+  const table = document.getElementById(tableId);
+  const rows = table.getElementsByTagName('tr');
+
+  for (let i = 1; i < rows.length; i++) {
+    let show = false;
+    const cells = rows[i].getElementsByTagName('td');
+    for (let j = 0; j < cells.length; j++) {
+      const cellValue = cells[j].textContent || cells[j].innerText;
+      if (cellValue.toLowerCase().includes(filter)) {
+        show = true;
+        break;
+      }
+    }
+    rows[i].style.display = show ? '' : 'none';
+  }
+}
+
+function exportToExcel() {
+  const table = document.getElementById("tenantsTable");
+  const wb = XLSX.utils.table_to_book(table, {sheet: "المستأجرين"});
+  XLSX.writeFile(wb, "tenants_export.xlsx");
+}
+
+function exportToPDF() {
+  const element = document.getElementById("tenantsTable");
+  const opt = {
+    margin: 0.5,
+    filename: 'tenants_export.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
+
 </body>
 </html>
