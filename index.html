@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>عرض المستأجرين - المشروع الاستثماري</title>
+  <style>
+    body { font-family: 'Cairo', sans-serif; background: white; color: #222; margin: 20px; }
+    h2 { color: #006400; text-align: center; }
+    .filters { margin-bottom: 15px; text-align: center; }
+    .filters input, .filters select {
+      padding: 6px; margin: 5px; min-width: 150px;
+      border: 1px solid #ccc; border-radius: 6px;
+    }
+    table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #006400; color: white; }
+  </style>
+</head>
+<body>
+  <h2>📋 عرض المستأجرين من JSON</h2>
+  <div class="filters">
+    <input id="search" placeholder="🔍 اسم المستأجر">
+    <select id="filter">
+      <option value="">📂 كل المراحل</option>
+    </select>
+  </div>
+  <div id="tableContainer"></div>
+
+  <script>
+    async function loadAndStoreJSON() {
+      const response = await fetch('tenants_data.json');
+      const json = await response.json();
+      localStorage.setItem("tenants_data", JSON.stringify(json.complete));
+      return json.complete;
+    }
+
+    function renderTable(data) {
+      const search = document.getElementById("search");
+      const filter = document.getElementById("filter");
+      const container = document.getElementById("tableContainer");
+
+      const phases = [...new Set(data.map(r => r["المرحلة"]).filter(Boolean))];
+      filter.innerHTML += phases.map(p => `<option value="${p}">${p}</option>`).join('');
+
+      function render() {
+        const q = search.value.trim();
+        const f = filter.value;
+        const filtered = data.filter(r =>
+          (!q || (r["المستأجر"] || "").includes(q)) &&
+          (!f || r["المرحلة"] == f)
+        );
+        if (!filtered.length) return container.innerHTML = "<p>لا توجد بيانات</p>";
+
+        const cols = Object.keys(filtered[0]);
+        let html = "<table><thead><tr>" + cols.map(c => `<th>${c}</th>`).join('') + "</tr></thead><tbody>";
+        html += filtered.map(r => "<tr>" + cols.map(c => `<td>${r[c] || ""}</td>`).join('') + "</tr>").join('');
+        html += "</tbody></table>";
+        container.innerHTML = html;
+      }
+
+      search.oninput = filter.onchange = render;
+      render();
+    }
+
+    window.onload = async () => {
+      let data = localStorage.getItem("tenants_data");
+      if (!data) {
+        data = await loadAndStoreJSON();
+      } else {
+        data = JSON.parse(data);
+      }
+      renderTable(data);
+    };
+  </script>
+</body>
+</html>
