@@ -53,7 +53,7 @@
         if (!filtered.length) return container.innerHTML = "<p>لا توجد بيانات</p>";
 
         const cols = Object.keys(filtered[0]);
-        let html = "<table><thead><tr>" + cols.map(c => `<th>${c}</th>`).join('') + "</tr></thead><tbody>";
+        let html = "<table id="tenantsTable"><thead><tr>" + cols.map(c => `<th>${c}</th>`).join('') + "</tr></thead><tbody>";
         html += filtered.map(r => "<tr>" + cols.map(c => `<td>${r[c] || ""}</td>`).join('') + "</tr>").join('');
         html += "</tbody></table>";
         container.innerHTML = html;
@@ -74,25 +74,26 @@
     };
   </script>
 
-<script>
-function smartSearch(inputId, tableId) {
-  const input = document.getElementById(inputId);
-  const filter = input.value.toLowerCase();
-  const table = document.getElementById(tableId);
-  const rows = table.getElementsByTagName('tr');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  for (let i = 1; i < rows.length; i++) {
-    let show = false;
-    const cells = rows[i].getElementsByTagName('td');
-    for (let j = 0; j < cells.length; j++) {
-      const cellValue = cells[j].textContent || cells[j].innerText;
-      if (cellValue.toLowerCase().includes(filter)) {
-        show = true;
-        break;
-      }
-    }
-    rows[i].style.display = show ? '' : 'none';
-  }
+<script>
+function exportToExcel() {
+  const table = document.getElementById("tenantsTable");
+  const wb = XLSX.utils.table_to_book(table, {sheet: "المستأجرين"});
+  XLSX.writeFile(wb, "tenants_export.xlsx");
+}
+
+function exportToPDF() {
+  const element = document.getElementById("tenantsTable");
+  const opt = {
+    margin: 0.5,
+    filename: 'tenants_export.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+  };
+  html2pdf().set(opt).from(element).save();
 }
 </script>
 
