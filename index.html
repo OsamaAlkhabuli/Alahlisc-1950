@@ -73,5 +73,28 @@
       renderTable(data);
     };
   </script>
+
+<script>
+function smartSearch(inputId, tableId) {
+  const input = document.getElementById(inputId);
+  const filter = input.value.toLowerCase();
+  const table = document.getElementById(tableId);
+  const rows = table.getElementsByTagName('tr');
+
+  for (let i = 1; i < rows.length; i++) {
+    let show = false;
+    const cells = rows[i].getElementsByTagName('td');
+    for (let j = 0; j < cells.length; j++) {
+      const cellValue = cells[j].textContent || cells[j].innerText;
+      if (cellValue.toLowerCase().includes(filter)) {
+        show = true;
+        break;
+      }
+    }
+    rows[i].style.display = show ? '' : 'none';
+  }
+}
+</script>
+
 </body>
 </html>
