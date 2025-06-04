@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تقرير المشروع الاستثماري</title>
+  <style>
+    body { font-family: 'Cairo', sans-serif; margin: 20px; background: #fff; color: #222; }
+    header { text-align: center; margin-bottom: 20px; }
+    header img { height: 80px; }
+    header h1 { margin: 5px 0; color: #006400; }
+    .controls { text-align: center; margin-bottom: 20px; }
+    .controls button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      background-color: #006400;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #006400;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="شعار النادي" />
+  <h1>تقرير بيانات المستأجرين</h1>
+</header>
+
+<div class="controls">
+  <button onclick="exportToExcel()">📁 تصدير Excel</button>
+  <button onclick="exportToPDF()">📄 تصدير PDF</button>
+  <button onclick="window.print()">🖨️ طباعة</button>
+</div>
+
+<div id="reportTableContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// البيانات من localStorage
+const data = JSON.parse(localStorage.getItem("tenants_data") || "[]");
+
+function renderReportTable() {
+  const container = document.getElementById("reportTableContainer");
+  if (!data.length) {
+    container.innerHTML = "<p>لا توجد بيانات</p>";
+    return;
+  }
+
+  const cols = Object.keys(data[0]);
+  let html = "<table><thead><tr>" + cols.map(c => `<th>${c}</th>`).join('') + "</tr></thead><tbody>";
+  html += data.map(r => "<tr>" + cols.map(c => `<td>${r[c] || ""}</td>`).join('') + "</tr>").join('');
+  html += "</tbody></table>";
+  container.innerHTML = html;
+}
+
+function exportToExcel() {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "التقرير");
+  XLSX.writeFile(workbook, "تقرير_المستأجرين.xlsx");
+}
+
+function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: "landscape" });
+  doc.text("تقرير المستأجرين", 140, 15);
+  const headers = [Object.keys(data[0])];
+  const rows = data.map(obj => Object.values(obj));
+  doc.autoTable({
+    head: headers,
+    body: rows,
+    startY: 25,
+    styles: { font: "courier", fontSize: 8 },
+  });
+  doc.save("تقرير_المستأجرين.pdf");
+}
+
+renderReportTable();
+</script>
+
+</body>
+</html>

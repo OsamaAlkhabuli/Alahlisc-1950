@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>إدخال مستأجر جديد</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      direction: rtl;
+    }
+    h2 {
+      color: #006400;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #006400;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    .filters {
+      margin: 30px auto;
+      max-width: 700px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: white;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background-color: #006400;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>📥 إدخال بيانات مستأجر جديد</h2>
+  <form id="tenantForm">
+    <label>اسم المستأجر</label>
+    <input type="text" name="المستأجر" required />
+
+    <label>المرحلة</label>
+    <select name="المرحلة">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+
+    <label>الدور</label>
+    <input type="number" name="الدور" min="0" max="2" required />
+
+    <label>رقم المحل</label>
+    <input type="number" name="رقم المحل" required />
+
+    <label>الإيجار الشهري (د.ل)</label>
+    <input type="number" name="الإيجار" required />
+
+    <label>قيمة الاستثمار</label>
+    <input type="number" name="قيمة الاستثمار" required />
+
+    <label>قيمة التطوير</label>
+    <input type="number" name="قيمة التطوير" required />
+
+    <label>تاريخ آخر سداد</label>
+    <input type="date" name="تاريخ آخر سداد" required />
+
+    <label>الباقي</label>
+    <input type="number" name="الباقي" required />
+
+    <label>تاريخ بداية العقد</label>
+    <input type="date" name="تاريخ بداية العقد" required />
+
+    <label>تاريخ نهاية العقد</label>
+    <input type="date" name="تاريخ نهاية العقد" required />
+
+    <label>ملاحظات</label>
+    <input type="text" name="ملاحظات" />
+
+    <label>القيمة المدفوعة</label>
+    <input type="number" name="القيمة المدفوعة" required />
+
+    <label>رقم الإيصال</label>
+    <input type="text" name="رقم الإيصال" required />
+
+    <button type="submit">💾 حفظ البيانات</button>
+  </form>
+
+  <div class="filters">
+    <input id="filterName" placeholder="🔍 اسم المستأجر" />
+    <input id="filterPhase" placeholder="📍 المرحلة" />
+    <input id="filterShop" placeholder="🏪 رقم المحل" />
+    <button onclick="exportPDF()">📄 تصدير PDF</button>
+  </div>
+
+  <div id="dataTable"></div>
+
+  <script>
+    let tenants = [];
+
+    document.getElementById('tenantForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const tenant = {};
+      formData.forEach((value, key) => tenant[key] = value);
+      tenants.push(tenant);
+      this.reset();
+      renderTable();
+    });
+
+    ['filterName', 'filterPhase', 'filterShop'].forEach(id => {
+      document.getElementById(id).addEventListener('input', renderTable);
+    });
+
+    function renderTable() {
+      const name = document.getElementById('filterName').value.trim();
+      const phase = document.getElementById('filterPhase').value.trim();
+      const shop = document.getElementById('filterShop').value.trim();
+
+      const filtered = tenants.filter(t =>
+        (!name || t['المستأجر'].includes(name)) &&
+        (!phase || t['المرحلة'] === phase) &&
+        (!shop || t['رقم المحل'] === shop)
+      );
+
+      if (filtered.length === 0) {
+        document.getElementById('dataTable').innerHTML = '<p>لا توجد بيانات لعرضها</p>';
+        return;
+      }
+
+      const headers = Object.keys(filtered[0]);
+      let html = '<table><thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+      html += filtered.map(r => '<tr>' + headers.map(h => `<td>${r[h]}</td>`).join('') + '</tr>').join('');
+      html += '</tbody></table>';
+      document.getElementById('dataTable').innerHTML = html;
+    }
+
+    function exportPDF() {
+      const element = document.getElementById('dataTable');
+      const opt = {
+        margin: 0.5,
+        filename: 'بيانات_المستأجرين.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
