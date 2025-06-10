@@ -4,204 +4,370 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="نظام إدارة المستأجرين لنادي الأهلي الرياضي - المشروع الاستثماري">
-    <title>نادي الأهلي الرياضي - إدارة الاستثمار</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>نظام إدارة المستأجرين | نادي الأهلي الرياضي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #1B5E20;
+            --secondary-color: #FFD700;
+            --light-green: #E8F5E9;
+            --dark-green: #0D3C12;
+            --text-color: #333333;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #F5F5F5;
-            color: #333333;
+            background-color: var(--light-gray);
+            color: var(--text-color);
             direction: rtl;
+            line-height: 1.6;
         }
 
         /* Header Styles */
         header {
-            background-color: #1B5E20;
-            color: #FFFFFF;
-            padding: 20px;
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-color));
+            color: var(--white);
+            padding: 1.2rem;
             text-align: center;
             position: fixed;
             width: 100%;
             top: 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             z-index: 1000;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 10px;
-            color: #FFD700;
+            color: var(--secondary-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         header p {
-            font-size: 1.2rem;
-            font-weight: 400;
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
         }
 
         /* Main Content */
         main {
             margin-top: 100px;
-            padding: 20px;
+            padding: 1.5rem;
             min-height: calc(100vh - 160px);
         }
 
         .content {
-            background-color: #FFFFFF;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
             max-width: 1200px;
             margin: 0 auto;
-            border: 2px solid #FFD700;
+            border: 2px solid var(--secondary-color);
         }
 
         .content h2 {
-            color: #1B5E20;
+            color: var(--primary-color);
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
             text-align: center;
             font-weight: 700;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
         }
 
         /* Search Bar Styles */
         .search-bar {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-container i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
         }
 
         .search-bar input {
-            width: 60%;
-            padding: 10px;
-            border: 1px solid #4CAF50;
-            border-radius: 5px;
+            width: 100%;
+            padding: 0.8rem 2.5rem 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 1rem;
+            outline: none;
         }
 
-        .search-bar button {
-            background-color: #FFD700;
-            color: #1B5E20;
+        .search-bar input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .search-bar button:hover {
-            background-color: #4CAF50;
-            color: #FFFFFF;
+        .btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn i {
+            font-size: 1rem;
         }
 
         /* Tabs Styles */
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 0.5rem;
         }
 
         .tab {
-            background-color: #4CAF50;
-            color: #FFFFFF;
+            background-color: var(--primary-color);
+            color: var(--white);
             border: none;
-            padding: 10px 20px;
+            padding: 0.8rem 1.5rem;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: background-color 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab i {
+            font-size: 1rem;
         }
 
         .tab.active, .tab:hover {
-            background-color: #FFD700;
-            color: #1B5E20;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
         }
 
         /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #F9FBE7; /* صفراء فاتحة تشبه الصورة */
-            overflow-x: auto;
-            display: block;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
-            padding: 8px;
-            border: 1px solid #FFD700;
+            padding: 0.8rem 1rem;
             text-align: center;
-            min-width: 100px;
+            border: 1px solid #e0e0e0;
         }
 
         th {
-            background-color: #1B5E20;
-            color: #FFFFFF;
+            background-color: var(--primary-color);
+            color: var(--white);
             font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s;
             position: sticky;
             top: 0;
             z-index: 10;
+            white-space: nowrap;
         }
 
         th:hover {
-            background-color: #388E3C;
+            background-color: var(--dark-green);
         }
 
         td {
-            color: #333333;
+            color: var(--text-color);
+            background-color: var(--white);
         }
 
         tr:nth-child(even) td {
-            background-color: #E6EE9C; /* تدرج صفراء فاتحة */
+            background-color: var(--light-green);
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Status Indicators */
+        .status-complete {
+            color: #2E7D32;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            color: #FF8F00;
+            font-weight: 500;
+        }
+
+        .status-review {
+            color: #D32F2F;
+            font-weight: 500;
+        }
+
+        /* Loading and Error Messages */
+        .loading, .error, .no-results {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-top: 1.5rem;
+        }
+
+        .loading i, .error i, .no-results i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .loading p, .error p, .no-results p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .error i {
+            color: #D32F2F;
+        }
+
+        .no-results i {
+            color: #FF8F00;
         }
 
         /* Footer Styles */
         footer {
-            background-color: #1B5E20;
-            color: #FFFFFF;
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-color));
+            color: var(--white);
             text-align: center;
-            padding: 15px;
+            padding: 1rem;
             position: fixed;
             width: 100%;
             bottom: 0;
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         footer p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 400;
         }
 
-        footer .developer {
-            color: #FFD700;
+        .developer {
+            color: var(--secondary-color);
             font-weight: 700;
         }
 
-        /* Loading and Error Messages */
-        .loading, .error {
+        .social-links {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            font-size: 1.2rem;
-            color: #1B5E20;
-            text-align: center;
+            gap: 1rem;
         }
 
-        .error {
-            color: #D32F2F;
+        .social-links a {
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+            transform: translateY(-2px);
         }
 
         /* Responsive Design */
@@ -211,47 +377,50 @@
             }
 
             header p {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
 
             main {
-                margin-top: 80px;
-                padding: 10px;
+                margin-top: 90px;
+                padding: 1rem;
             }
 
             .content {
-                padding: 15px;
+                padding: 1rem;
             }
 
             .content h2 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .search-bar {
                 flex-direction: column;
-                gap: 10px;
+                gap: 1rem;
             }
 
-            .search-bar input, .search-bar button {
+            .search-container, .action-buttons {
                 width: 100%;
             }
 
-            .tab {
-                padding: 8px 15px;
-                font-size: 0.9rem;
+            .btn {
+                flex: 1;
+                justify-content: center;
             }
 
-            table {
+            .tab {
+                padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
 
             th, td {
-                padding: 6px;
-                min-width: 80px;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
             }
 
-            footer p {
-                font-size: 0.9rem;
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
             }
         }
 
@@ -261,14 +430,22 @@
             }
             main {
                 margin-top: 0;
+                padding: 0;
             }
             .content {
                 box-shadow: none;
                 border: none;
+                padding: 0;
             }
             table {
                 font-size: 12px;
-                background-color: #FFFFFF;
+                background-color: var(--white);
+            }
+            th {
+                background-color: var(--white) !important;
+                color: var(--text-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
         }
     </style>
@@ -276,58 +453,131 @@
 <body>
     <!-- Header -->
     <header>
-        <h1>نادي الأهلي الرياضي</h1>
-        <p>إدارة الاستثمار - المشروع الاستثماري</p>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>نادي الأهلي الرياضي</h1>
+            </div>
+            <p>نظام إدارة المستأجرين - المشروع الاستثماري</p>
+        </div>
     </header>
 
     <!-- Main Content -->
     <main>
         <div class="content">
-            <h2>بيانات المستأجرين</h2>
+            <h2><i class="fas fa-users"></i> بيانات المستأجرين</h2>
+            
             <div class="search-bar">
-                <input type="text" id="search" placeholder="ابحث عن مستأجر..." oninput="searchTenants()">
-                <button onclick="exportToCSV()">تصدير كـ CSV</button>
-                <button onclick="printPage()">طباعة</button>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search" placeholder="ابحث عن مستأجر..." oninput="searchTenants()">
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" onclick="exportToCSV()">
+                        <i class="fas fa-file-export"></i> تصدير CSV
+                    </button>
+                    <button class="btn" onclick="printPage()">
+                        <i class="fas fa-print"></i> طباعة
+                    </button>
+                </div>
             </div>
+            
             <div class="tabs">
-                <button class="tab active" onclick="showCategory('complete')">المكتملة</button>
-                <button class="tab" onclick="showCategory('not_completed')">غير المكتملة</button>
-                <button class="tab" onclick="showCategory('legal_review')">تحت المراجعة القانونية</button>
+                <button class="tab active" onclick="showCategory('complete')">
+                    <i class="fas fa-check-circle"></i> المكتملة
+                </button>
+                <button class="tab" onclick="showCategory('not_completed')">
+                    <i class="fas fa-clock"></i> غير المكتملة
+                </button>
+                <button class="tab" onclick="showCategory('legal_review')">
+                    <i class="fas fa-gavel"></i> تحت المراجعة
+                </button>
             </div>
-            <div id="tenant-table" class="loading">جاري تحميل البيانات...</div>
+            
+            <div id="tenant-table" class="loading">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <p>جاري تحميل البيانات...</p>
+            </div>
         </div>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>برمجة وتصميم: <span class="developer">م.أسامة الخبولي</span></p>
+        <div class="footer-content">
+            <p>جميع الحقوق محفوظة &copy; <span id="year"></span> | نادي الأهلي الرياضي</p>
+            <p>برمجة وتصميم: <span class="developer">م. أسامة الخبولي</span></p>
+            <div class="social-links">
+                <a href="#" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" title="تويتر"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
     </footer>
 
     <script>
-        let tenantData = { complete: [], not_completed: [], legal_review: [] };
+        // بيانات التطبيق
+        let tenantData = { 
+            complete: [], 
+            not_completed: [], 
+            legal_review: [] 
+        };
         let currentCategory = 'complete';
         let currentSortColumn = null;
         let sortDirection = 1;
         let allTenants = [];
 
+        // تهيئة التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين سنة حقوق النشر
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // تحميل البيانات
+            loadTenantData();
+        });
+
+        // دالة تحميل بيانات المستأجرين
         function loadTenantData() {
-            fetch('tenants_data.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('فشل تحميل البيانات');
-                    return response.json();
-                })
-                .then(data => {
-                    tenantData = data;
-                    allTenants = getAllTenants();
-                    showCategory('complete');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('tenant-table').innerHTML = 
-                        '<p class="error">حدث خطأ أثناء تحميل البيانات. تأكد من وجود tenants_data.json</p>';
-                });
+            const tableContainer = document.getElementById('tenant-table');
+            tableContainer.innerHTML = `
+                <i class="fas fa-spinner fa-pulse"></i>
+                <p>جاري تحميل البيانات...</p>
+            `;
+            tableContainer.className = 'loading';
+
+            // محاكاة تحميل البيانات (في الواقع سيكون fetch لملف JSON)
+            setTimeout(() => {
+                fetch('tenants_data.json')
+                    .then(response => {
+                        if (!response.ok) throw new Error('فشل تحميل البيانات');
+                        return response.json();
+                    })
+                    .then(data => {
+                        tenantData = data;
+                        allTenants = getAllTenants();
+                        showCategory('complete');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showError('حدث خطأ أثناء تحميل البيانات. تأكد من وجود ملف البيانات');
+                    });
+            }, 1000);
         }
 
+        // دالة عرض رسالة الخطأ
+        function showError(message) {
+            const tableContainer = document.getElementById('tenant-table');
+            tableContainer.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>${message}</p>
+                <button class="btn" onclick="loadTenantData()" style="margin-top: 1rem;">
+                    <i class="fas fa-sync-alt"></i> إعادة المحاولة
+                </button>
+            `;
+            tableContainer.className = 'error';
+        }
+
+        // دالة جمع جميع المستأجرين من جميع الفئات
         function getAllTenants() {
             return [
                 ...tenantData.complete.filter(t => t['المستاجر ']?.trim()),
@@ -336,39 +586,61 @@
             ];
         }
 
+        // دالة عرض فئة معينة من المستأجرين
         function showCategory(category) {
             currentCategory = category;
+            
+            // تحديث التبويب النشط
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelector(`.tab[onclick="showCategory('${category}')"]`).classList.add('active');
+            
+            // إعادة تعيين البحث والترتيب
             document.getElementById('search').value = '';
             currentSortColumn = null;
             sortDirection = 1;
+            
+            // عرض الجدول
             renderTable();
         }
 
+        // دالة عرض الجدول
         function renderTable() {
             const tenants = tenantData[currentCategory] || [];
             const tableContainer = document.getElementById('tenant-table');
+            
+            // إنشاء عناصر الجدول
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
-
+            
+            // تحديد العناوين بناءً على الفئة
             const headers = ['المستأجر', 'المرحلة', 'الدور', 'رقم المحل', 'الإيجار', 'تاريخ آخر سداد', 'الباقي', 'ملاحظات'];
             const fieldKeys = currentCategory === 'complete' 
                 ? ['المستاجر ', 'المرحلة', 'الدور', 'رقم المحل', 'الايجار', 'تاريخ اخر سداد', 'الباقي', 'ملاحظات']
                 : ['Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 8', 'Unnamed: 9', 'Unnamed: 12'];
-
+            
+            // إنشاء صف العناوين
             const headerRow = document.createElement('tr');
             headers.forEach((header, index) => {
                 const th = document.createElement('th');
                 th.textContent = header;
                 th.dataset.column = index;
+                
+                // إضافة أيقونة الترتيب إذا كان العمود مرتباً
+                if (currentSortColumn === index) {
+                    const icon = document.createElement('i');
+                    icon.className = `fas fa-sort-${sortDirection === 1 ? 'up' : 'down'}`;
+                    th.appendChild(icon);
+                    th.style.backgroundColor = '#0D3C12';
+                }
+                
                 th.addEventListener('click', () => sortTable(index));
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
             table.appendChild(thead);
-
+            
+            // تصفية البيانات حسب البحث وإزالة الصفوف الفارغة
             let filteredTenants = tenants.filter(tenant => {
                 const name = currentCategory === 'complete' 
                     ? (tenant['المستاجر '] || '').trim() 
@@ -386,64 +658,88 @@
                 });
             }
 
+            // ترتيب البيانات إذا تم اختيار عمود
             if (currentSortColumn !== null) {
                 filteredTenants.sort((a, b) => {
                     let valueA = a[fieldKeys[currentSortColumn]] || '';
                     let valueB = b[fieldKeys[currentSortColumn]] || '';
+                    
+                    // التحقق إذا كانت القيم رقمية
                     if (!isNaN(valueA) && !isNaN(valueB)) {
                         return (Number(valueA) - Number(valueB)) * sortDirection;
                     }
+                    
                     return valueA.localeCompare(valueB, 'ar') * sortDirection;
                 });
             }
 
+            // إنشاء صفوف الجدول
             filteredTenants.forEach(tenant => {
                 const row = document.createElement('tr');
                 fieldKeys.forEach(key => {
                     const td = document.createElement('td');
                     let value = tenant[key] || '-';
 
-                    // Keep numbers in Latin format as per request
-                    if (!isNaN(value) && value !== '-') {
-                        value = Number(value).toString(); // Ensures Latin numbers
-                    }
-
-                    // Format dates to remove time if present
+                    // تنسيق التواريخ
                     if (key.includes('تاريخ') && value !== '-') {
                         const dateParts = value.split(' ');
-                        value = dateParts[0]; // Keep only date part
+                        value = dateParts[0]; // الاحتفاظ بالجزء الخاص بالتاريخ فقط
                     }
-
-                    // Handle checkmarks (✓, ✗) or other symbols
-                    if (value === '✓' || value === '✔') value = '✓';
-                    if (value === '✗' || value === '×') value = '✗';
-
+                    
+                    // تنسيق الأرقام (الحفاظ على الأرقام اللاتينية حسب الطلب)
+                    if (!isNaN(value) && value !== '-') {
+                        value = Number(value).toLocaleString('en');
+                    }
+                    
+                    // تنسيق الحالة (إضافة ألوان حسب الفئة)
+                    if (key === 'ملاحظات' || key === 'Unnamed: 12') {
+                        if (value.includes('مستوفي') || value.includes('تعديل')) {
+                            td.classList.add('status-complete');
+                        } else if (value.includes('باقي') || value.includes('تأكيد')) {
+                            td.classList.add('status-pending');
+                        } else if (value.includes('مراجعة') || value.includes('قانوني')) {
+                            td.classList.add('status-review');
+                        }
+                    }
+                    
                     td.textContent = value;
                     row.appendChild(td);
                 });
                 tbody.appendChild(row);
             });
-
+            
             table.appendChild(tbody);
+            
+            // عرض الجدول أو رسالة عدم وجود نتائج
             tableContainer.innerHTML = '';
+            tableContainer.className = '';
             tableContainer.appendChild(table);
-
+            
             if (filteredTenants.length === 0) {
-                const noResults = document.createElement('p');
-                noResults.textContent = 'لا توجد نتائج';
-                noResults.style.textAlign = 'center';
-                noResults.style.padding = '20px';
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <p>لا توجد نتائج مطابقة للبحث</p>
+                `;
                 tableContainer.appendChild(noResults);
+            } else {
+                const tableWrapper = document.createElement('div');
+                tableWrapper.className = 'table-container';
+                tableWrapper.appendChild(table);
+                tableContainer.appendChild(tableWrapper);
             }
         }
 
+        // دالة البحث عن المستأجرين
         function searchTenants() {
             renderTable();
         }
 
+        // دالة ترتيب الجدول
         function sortTable(column) {
             if (currentSortColumn === column) {
-                sortDirection *= -1;
+                sortDirection *= -1; // تبديل اتجاه الترتيب
             } else {
                 currentSortColumn = column;
                 sortDirection = 1;
@@ -451,33 +747,40 @@
             renderTable();
         }
 
+        // دالة التصدير إلى CSV
         function exportToCSV() {
             const tenants = tenantData[currentCategory] || [];
             const headers = ['المستأجر', 'المرحلة', 'الدور', 'رقم المحل', 'الإيجار', 'تاريخ آخر سداد', 'الباقي', 'ملاحظات'];
             const fieldKeys = currentCategory === 'complete' 
                 ? ['المستاجر ', 'المرحلة', 'الدور', 'رقم المحل', 'الايجار', 'تاريخ اخر سداد', 'الباقي', 'ملاحظات']
                 : ['Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 8', 'Unnamed: 9', 'Unnamed: 12'];
-
+            
             let csv = headers.map(h => `"${h}"`).join(',') + '\n';
+            
             tenants.forEach(tenant => {
+                // تخطي الصفوف الفارغة
                 if ((currentCategory === 'complete' && !tenant['المستاجر ']?.trim()) || 
                     (currentCategory !== 'complete' && !tenant['Unnamed: 1']?.trim())) {
                     return;
                 }
+                
                 const row = fieldKeys.map(key => {
                     let value = tenant[key] || '';
-                    if (!isNaN(value) && value !== '') {
-                        value = Number(value).toString(); // Latin numbers
-                    }
+                    
+                    // تنسيق التواريخ
                     if (key.includes('تاريخ') && value !== '') {
                         const dateParts = value.split(' ');
                         value = dateParts[0];
                     }
+                    
+                    // إضافة علامات اقتباس للقيم التي تحتوي على فواصل أو اقتباسات
                     return `"${value.toString().replace(/"/g, '""')}"`;
                 }).join(',');
+                
                 csv += row + '\n';
             });
-
+            
+            // إنشاء ملف CSV وتنزيله
             const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -486,13 +789,15 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            // إشعار نجاح التصدير
+            alert(`تم تصدير ${tenants.length} سجل بنجاح`);
         }
 
+        // دالة الطباعة
         function printPage() {
             window.print();
         }
-
-        document.addEventListener('DOMContentLoaded', loadTenantData);
     </script>
 </body>
 </html>
